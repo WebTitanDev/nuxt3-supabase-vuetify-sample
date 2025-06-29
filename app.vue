@@ -6,10 +6,8 @@
   </NuxtRouteAnnouncer>
   <NuxtLoadingIndicator />
   <NuxtLayout>
-    <template>
-      <header>My Site</header>
+    <v-app>
       <NuxtPage />
-      <footer>© 2025</footer>
-    </template>
+    </v-app>
   </NuxtLayout>
 </template>

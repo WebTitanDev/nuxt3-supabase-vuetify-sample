@@ -1,25 +1,39 @@
+import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 export default defineNuxtConfig({
+  build: {
+    transpile: ['vuetify']
+  },
+  css: ['vuetify/styles'],
   devServer: {
     host: '0.0.0.0',
     port: 3000
   },
-  css: ['vuetify/styles'],
-  build: {
-    transpile: ['vuetify']
+  compatibilityDate: '2025-06-29',
+  image: {
+    domains: ['example.com'],  
+    provider: 'ipx',        
   },
-
   runtimeConfig: {
     public: {
       supabaseUrl: 'https://YOUR_SUPABASE_URL',
       supabaseAnonKey: 'YOUR_SUPABASE_ANON_KEY'
     }
   },
-  image: {
-    // optional config, for example:
-    domains: ['example.com'],  // allowed external image domains
-    provider: 'ipx',          // default built-in image optimizer
+ 
+  modules: [
+    '@nuxt/image',
+    (_options, nuxt) => {
+      nuxt.hooks.hook('vite:extendConfig', (config) => {
+        // @ts-expect-error
+        config.plugins.push(vuetify({ autoImport: true }))
+      })
+    },
+  ],
+  vite: {
+    vue: {
+      template: {
+        transformAssetUrls,
+      },
+    },
   },
-  compatibilityDate: '2025-06-29',
-
-  modules: ['@nuxt/image']
 })
